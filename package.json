@@ -9,12 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "12.1.0",
-    "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "next": "12",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-loading-skeleton": "^3.0.3",
+    "react-spinners": "^0.11.0",
+    "swr": "^1.2.2"
   },
   "devDependencies": {
     "eslint": "8.10.0",
     "eslint-config-next": "12.1.0"
-  }
+  },
+  "main": "index.js",
+  "author": "Aleksandr <sanchasyo@mail.ru>",
+  "license": "MIT"
 }
