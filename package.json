@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run open && next dev",
     "build": "next build",
+    "open": "start http://localhost:3000",
     "start": "next start",
     "lint": "next lint"
   },
