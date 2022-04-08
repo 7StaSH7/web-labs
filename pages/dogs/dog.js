@@ -10,7 +10,7 @@ export default function Dog({ dog }) {
     `https://dog.ceo/api/breed/${dog}/images/random`,
     fetcher
   );
-  if (!data) return <Skeleton className={styles.card} />;
+  if (!data) return <Skeleton containerClassName={styles.card} />;
   if (error) return <div>Fail :(</div>;
 
   return (

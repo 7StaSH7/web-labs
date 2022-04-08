@@ -8,7 +8,9 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>Labs</title>
         <link rel="icon" href="/favicon.ico" />
+        
       </Head>
+
       <Component {...pageProps} />
     </React.Fragment>
   );

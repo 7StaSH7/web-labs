@@ -13,7 +13,7 @@ export default function Cat({ cat }) {
     `https://api.thecatapi.com/v1/images/search?breed_id=${cat.id}`,
     fetcher
   );
-  if (!data) return <Skeleton className={styles.card} />;
+  if (!data) return <Skeleton containerClassName={styles.card} />;
   if (error) return <div>Fail :(</div>;
   return (
     <div className={styles.card}>

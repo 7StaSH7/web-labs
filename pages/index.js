@@ -8,7 +8,6 @@ export default function Home() {
     <div className={styles.container}>
       <Header />
       <HomeMain />
-      <div id="modal-root"></div>
       <Footer />
     </div>
   );
