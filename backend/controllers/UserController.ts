@@ -1,16 +1,17 @@
-﻿import { Controller, Body, Post } from "routing-controllers";
+﻿import { Body, Post, JsonController } from "routing-controllers";
 import { login, LoginParams, register, RegisterParams } from "../services/user";
 
-@Controller("")
+@JsonController("")
 export class UserController {
   @Post("/login")
   async login(@Body() params: LoginParams) {
-    return await login(params);
+    const data = await login(params);
+    return { data: data };
   }
 
   @Post("/register")
   async register(@Body() params: RegisterParams) {
-    console.log(params);
-    return await register(params);
+    const data = await register(params);
+    return { data: data };
   }
 }

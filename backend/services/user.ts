@@ -13,7 +13,7 @@ export class LoginParams extends User {
   username!: string;
 
   @IsString()
-  password!: string;
+  password?: string;
 }
 export class RegisterParams extends User {
   @IsEmail()
@@ -23,27 +23,34 @@ export class RegisterParams extends User {
   username!: string;
 
   @IsString()
-  password!: string;
+  password?: string;
 }
 export const login = async (params: LoginParams) => {
   const rep = getRepository(User);
   const user = await rep.findOne({
-    where: [{ email: params.email }, { username: params.username }],
+    where: { email: params.email },
   });
 
   if (!user) throw new HttpError(404, "user.not-found");
   if (user.password !== params.password)
-    throw new HttpError(404, "user.password-not-match");
+    throw new HttpError(403, "user.password-not-match");
 
   delete user.password;
 
-  return {
-    data: user,
-  };
+  return user;
 };
 
 export const register = async (params: RegisterParams) => {
   const rep = getRepository(User);
+
+  const user = await rep.findOne({
+    where: [{ email: params.email }, { username: params.username }],
+  });
+
+  if (user) throw new HttpError(400, "user.already-exist");
+
   const newUser = await rep.save(params);
-  return { data: newUser };
+  delete newUser.password;
+
+  return newUser;
 };
