@@ -1,0 +1,29 @@
+﻿{
+  "sourceMap": true,
+  "compilerOptions": {
+    "target": "ES2020",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "declaration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitUseStrict": false,
+    "outDir": "dist/",
+    "rootDir": "./",
+    "listFiles": false,
+    "noImplicitReturns": true,
+    "strict": true,
+    "suppressImplicitAnyIndexErrors": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+  },
+  "include": [
+    "./**/*.ts",
+    "./**/*.d.ts",
+    "./**/*.js",
+  ],
+  "exclude": [
+    "node_modules",
+    "./dist"
+  ],
+}
