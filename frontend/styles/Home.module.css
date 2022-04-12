@@ -236,7 +236,7 @@
   height: 1em;
   margin-left: 0.5rem;
 }
-
+/* 
 .modal_body {
   padding-top: 10px;
 }
@@ -262,7 +262,7 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
-}
+} */
 
 .dialog_footer {
   display: flex;
@@ -275,6 +275,9 @@
   margin: 20px auto 0 auto;
 }
 
+.spin {
+  animation: spin 3s infinite;
+}
 
 
 @media (max-width: 600px) {
@@ -294,4 +297,9 @@
   75% {
     background-color: #3b8070;
   }
+}
+
+@keyframes spin {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
 }

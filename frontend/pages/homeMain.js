@@ -13,7 +13,10 @@ export default function HomeMain() {
       <h6 className={styles.main_subtitle}>
         Сайт рассказывает про собачек и кошечек 🐱🐶
       </h6>
-      <div className={styles.main_animation}></div>
+      <div className="flex mx-auto mt-8">
+        {/* <div className={styles.main_animation}></div> */}
+        <img className={`ml-7 ${styles.spin}`} src="/maila.jpg" width="500px" height="600px"/>
+      </div>
     </main>
   );
 }

@@ -1,4 +1,5 @@
-﻿import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+﻿import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Like } from "./Likes";
 
 @Entity()
 export class User {
@@ -13,4 +14,9 @@ export class User {
 
   @Column({ type: "text", nullable: false })
   email!: string;
+
+  @OneToMany(() => Like, like => like.userId, {
+    onDelete: 'CASCADE'
+  })
+  likes!: Like[];
 }
