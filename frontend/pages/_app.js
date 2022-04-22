@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useAuth, ProvideAuth } from "../utils/auth";
 
 export default function MyApp({ Component, pageProps }) {
-
+  
   return (
     <ProvideAuth>
       <React.Fragment>

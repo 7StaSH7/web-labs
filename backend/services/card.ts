@@ -46,7 +46,10 @@ export const create = async (params: CreateCardParams) => {
 
 export const getCats = async () => {
   const cardRep = getRepository(Card);
-  return await cardRep.find({ where: { catId: Not(IsNull()) } });
+  return await cardRep.find({
+    where: { catId: Not(IsNull()) },
+    order: { id: "ASC" },
+  });
 };
 
 export const getDogs = async () => {

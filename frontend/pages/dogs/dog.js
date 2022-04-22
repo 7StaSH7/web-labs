@@ -1,6 +1,4 @@
 ﻿import styles from "../../styles/Home.module.css";
-import useSWR from "swr";
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useState } from "react";
 import { ToggleButton } from "primereact/togglebutton";
@@ -8,7 +6,6 @@ import { updatePostStats } from "../../utils/helpers";
 
 export default function Dog({ dog, id, socketId }) {
   const [liked, setLiked] = useState(false);
-  console.log(socketId);
   const like = async (value) => {
     if (value) {
       await fetch(`http://localhost:5000/api/cards/${id}/act`, {

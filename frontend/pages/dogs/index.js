@@ -8,33 +8,43 @@ import { override } from "../data";
 import Pusher from "pusher-js";
 import { updatePostStats } from "../../utils/helpers";
 
-const fetcher = async (url) => fetch(url).then((res) => res.json());
-
-Pusher.logToConsole = true;
-let pusher = new Pusher("64899b4087c6e5c565ac", {
-  cluster: "eu",
-});
-let socketId;
 export default function Dogs() {
   const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [socketId, setSocketId] = useState("");
   useEffect(async () => {
+    let pusher = new Pusher("64899b4087c6e5c565ac", {
+      cluster: "eu",
+    });
     pusher.connection.bind("connected", function () {
-      socketId = pusher.connection.socket_id;
+      
+      if (typeof window !== "undefined") {
+        setSocketId(JSON.parse(localStorage.getItem("socketId")))
+        if (!socketId) {
+          setSocketId(pusher.connection.socket_id);
+          localStorage.setItem("socketId", JSON.stringify(socketId))
+        }
+      }
     });
     let channel = pusher.subscribe("card-events");
+    channel.cancelSubscription();
     channel.bind("cardAction", function (data) {
-      console.log(data);
       let action = data.action;
       updatePostStats[action](data.cardId);
     });
     // const res = await fetch("https://dog.ceo/api/breeds/list/all", fetcher);
-    const res = await fetch("http://localhost:5000/api/cards/dogs", fetcher);
+    const res = await fetch("http://localhost:5000/api/cards/dogs");
     const data = await res.json();
-    if (!data) return <ClipLoader css={override} size={150} />;
     if (data.meta) return <div>Fail :(</div>;
     setCards(data.result);
+    setLoading(false);
+    console.log(socketId)
+    
   }, []);
-  return (
+
+  return loading ? (
+    <ClipLoader css={override} size={150} />
+  ) : (
     <div className={styles.container}>
       <Header></Header>
       <main className={styles.main}>
