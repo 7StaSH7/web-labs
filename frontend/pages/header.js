@@ -2,27 +2,27 @@
 import { navLinks } from "./data";
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import "/node_modules/primeflex/primeflex.css";
 import { Toast } from "primereact/toast";
+import { useAuth } from "../utils/auth";
 
 export default function Header() {
+  const auth = useAuth();
   const router = useRouter();
   const toast = useRef(null);
-
+  const [usernameValue, setUsernameValue] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [username, setUsername] = useState("");
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidUsername, setIsValidUsername] = useState(true);
-  const [isLogined, setIsLogined] = useState(false);
 
   const dialogFuncMap = {
     login: setLogin,
@@ -34,7 +34,7 @@ export default function Header() {
   };
 
   const onHide = (name) => {
-    setUsername("");
+    setUsernameValue("");
     setEmail("");
     setPassword("");
     setConfirmPassword("");
@@ -43,75 +43,48 @@ export default function Header() {
     dialogFuncMap[`${name}`](false);
   };
 
-  const registration = async () => {
-    await fetch("http://localhost:5000/api/register", {
-      method: "POST",
-      // mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-        email: email,
-      }),
-    })
-      .then((data) => data.json())
-      .then((data) => {
-        if (data.data) {
-          onHide("register");
-          onClick("login");
-          toast.current.show({
-            severity: "success",
-            summary: "Успешно зарегистрировались",
-            life: 2000,
-          });
-        }
-        if (data.meta) {
-          if (data.meta.message === "user.already-exist")
-          toast.current.show({
-            severity: "error",
-            summary: "Такой пользователь уже существует 😰",
-            life: 2000,
-          });
-        }
-      });
-  };
-
   const log = async () => {
-    await fetch("http://localhost:5000/api/login", {
-      method: "POST",
-      // mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    })
-      .then((data) => data.json())
-      .then((data) => {
-        if (data.data) {
-          onHide("login");
-          setIsLogined(true);
-          setUsername(data.data.username);
-          toast.current.show({
-            severity: "success",
-            summary: `Привет, ${username} 👋`,
-            life: 2000,
-          });
-        }
-        if (data.meta) {
-          if (data.meta.error.message === "user.password-not-match") {
-            toast.current.show({
-              severity: "error",
-              summary: "Не тот пароль 😢",
-              life: 2000,
-            });
-          }
-        }
+    const data = await auth.login(email, password);
+    if (data.meta) {
+      if (data.meta.error.message === "user.password-not-match") {
+        toast.current.show({
+          severity: "error",
+          summary: "Не тот пароль 😢",
+          life: 3000,
+        });
+      }
+    }
+
+    if (data.data) {
+      onHide("login");
+      toast.current.show({
+        severity: "success",
+        summary: `Привет, ${data.data.username} 👋`,
+        life: 3000,
       });
+    }
+  };
+  const registration = async () => {
+    const data = await auth.signUp(usernameValue, password, email);
+
+    if (data.meta) {
+      if (data.meta.error.message === "user.already-exist") {
+        toast.current.show({
+          severity: "error",
+          summary: "Такой пользователь уже существует 😰",
+          life: 3000,
+        });
+      }
+    }
+    if (data.data) {
+      onHide("register");
+      onClick("login");
+      toast.current.show({
+        severity: "success",
+        summary: "Успешно зарегистрировались",
+        life: 3000,
+      });
+    }
   };
 
   const renderFooter = (name) => {
@@ -127,7 +100,7 @@ export default function Header() {
         />
         <Button
           label="Войти"
-          onClick={log}
+          onClick={() => log()}
           className="mx-4"
           disabled={!(isValidUsername && isValidEmail && password !== "")}
         />
@@ -155,12 +128,13 @@ export default function Header() {
     setIsValidEmail(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
   };
   const validteUsername = (_username) => {
-    setUsername(_username);
+    setUsernameValue(_username);
     setIsValidUsername(_username.length > 3);
   };
+
   return (
     <header className={styles.header}>
-      <Toast ref={toast} position="bottom-right" style={{ zIndex: 20 }} />
+      <Toast ref={toast} position="bottom-right" baseZIndex={20} />
       <div className={styles.site_name}>
         <h1 style={{ fontFamily: "Montserrat" }}>Animal forum</h1>
       </div>
@@ -183,14 +157,16 @@ export default function Header() {
           })}
         </ul>
       </nav>
-      {!isLogined ? (
+      {!auth.isLogined ? (
         <Button
           label="Войти"
           onClick={() => onClick("login")}
           className={styles.login}
         />
       ) : (
-        <div className={styles.logined}>{username}</div>
+        <div className={styles.logined}>
+          <p className="mx-auto mt-1">{auth.username}</p>
+        </div>
       )}
 
       <Dialog
@@ -273,7 +249,7 @@ export default function Header() {
           </label>
           <InputText
             id="register-username"
-            value={username}
+            value={usernameValue}
             onChange={(e) => validteUsername(e.target.value)}
             className={
               !isValidUsername ? `w-full p-invalid block` : `w-full block`

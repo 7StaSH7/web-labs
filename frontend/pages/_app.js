@@ -1,19 +1,20 @@
 import "../styles/globals.css";
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
+import { useAuth, ProvideAuth } from "../utils/auth";
 
-function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }) {
+
   return (
-    <React.Fragment>
-      <Head>
-        <title>Labs</title>
-        <link rel="icon" href="/favicon.ico" />
-        
-      </Head>
+    <ProvideAuth>
+      <React.Fragment>
+        <Head>
+          <title>Labs</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
 
-      <Component {...pageProps} />
-    </React.Fragment>
+        <Component {...pageProps} />
+      </React.Fragment>
+    </ProvideAuth>
   );
 }
-
-export default MyApp;

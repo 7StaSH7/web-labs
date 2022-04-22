@@ -1,4 +1,4 @@
-﻿import React from "react";
+﻿import React, { useEffect, useState } from "react";
 import styles from "../../styles/Home.module.css";
 import Header from "../header";
 import useSWR from "swr";
@@ -12,19 +12,26 @@ const fetcher = async (url) =>
   }).then((res) => res.json());
 
 export default function Cats() {
-  const { data, error } = useSWR(
-    "https://api.thecatapi.com/v1/breeds",
-    fetcher
-  );
-  if (!data) return <ClipLoader css={override} size={150} />;
-  if (error) return <div>Fail :(</div>;
-  return (
+  const [cards, setCards] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(async () => {
+    setIsLoading(true);
+    const res = await fetch("https://api.thecatapi.com/v1/breeds", fetcher);
+    const data = await res.json();
+
+    if (data.meta) return <div>Fail :(</div>;
+    setCards(Object.values(data));
+    setIsLoading(false);
+  }, []);
+  return isLoading ? (
+    <ClipLoader css={override} size={150} />
+  ) : (
     <div className={styles.container}>
       <Header></Header>
       <main className={styles.main}>
         <h4 className={styles.main_title}>Породы кошек</h4>
         <div className={styles.grid_list}>
-          {Object.values(data).map((cat, idx) => {
+          {cards.map((cat, idx) => {
             return <Cat cat={cat} key={idx} />;
           })}
         </div>
