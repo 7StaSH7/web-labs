@@ -13,7 +13,7 @@ export default function Dogs() {
   const [loading, setLoading] = useState(true);
   const [socketId, setSocketId] = useState("");
   useEffect(async () => {
-    let pusher = new Pusher("64899b4087c6e5c565ac", {
+    let pusher = new Pusher("57a270cfa92ec1468241", {
       cluster: "eu",
     });
     pusher.connection.bind("connected", function () {
