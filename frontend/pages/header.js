@@ -9,12 +9,47 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import "/node_modules/primeflex/primeflex.css";
 import { Toast } from "primereact/toast";
+import { PanelMenu } from "primereact/panelmenu";
 import { useAuth } from "../utils/auth";
 
 export default function Header() {
   const auth = useAuth();
   const router = useRouter();
   const toast = useRef(null);
+  
+  const menuItems = [
+    {
+      label: auth.username,
+      items: [
+        {
+          label: "Язык",
+          icon: "pi pi-cog",
+          items: [
+            {
+              label: "RU",
+              command: () => {
+                console.log("ru");
+              },
+            },
+            {
+              label: "EN",
+              command: () => {
+                console.log("en");
+              },
+            },
+          ],
+        },
+        {
+          label: "Выход",
+          icon: "pi pi-sign-out",
+          command: () => {
+            console.log("logout");
+          },
+        },
+      ],
+    },
+  ];
+
   const [usernameValue, setUsernameValue] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +58,7 @@ export default function Header() {
   const [register, setRegister] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidUsername, setIsValidUsername] = useState(true);
-
+  
   const dialogFuncMap = {
     login: setLogin,
     register: setRegister,
@@ -164,9 +199,11 @@ export default function Header() {
           className={styles.login}
         />
       ) : (
-        <div className={styles.logined}>
-          <p className="mx-auto mt-1">{auth.username}</p>
-        </div>
+        <PanelMenu
+          model={menuItems}
+          id="popup_menu"
+          className={styles.logined}
+        />
       )}
 
       <Dialog

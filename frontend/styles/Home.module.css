@@ -98,14 +98,10 @@
 
 .logined {
   height: 30px;
-  width: 100px;
+  width: 125px;
   margin: 0 0 0 auto;
   transition-duration: 0.2s;
   border-radius: 10px;
-  border-color: #6366F1;
-  background-color: #6366F1; 
-  color: white;
-  text-align: center;
 }
 
 .header_item {

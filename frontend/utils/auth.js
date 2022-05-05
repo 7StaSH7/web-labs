@@ -13,9 +13,11 @@ function useProvideAuth() {
   const [username, setUsername] = useState("");
   const [isLogined, setIsLogined] = useState(false);
   const [error, setError] = useState("");
+  const [locale, setLocale] = useState("ru");
 
   useEffect(() => {
     autoLogin();
+    getLocale();
   });
 
   const signUp = async (_username, _password, _email) => {
@@ -84,10 +86,14 @@ function useProvideAuth() {
     }
   };
 
+  const getLocale = () => {};
+
   return {
     username,
     isLogined,
     error,
+    locale,
+    setLocale,
     login,
     logout,
     signUp,

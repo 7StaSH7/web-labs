@@ -38,7 +38,6 @@ export default function Dogs() {
     if (data.meta) return <div>Fail :(</div>;
     setCards(data.result);
     setLoading(false);
-    console.log(socketId)
     
   }, []);
 
