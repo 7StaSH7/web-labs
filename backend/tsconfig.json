@@ -9,21 +9,34 @@
     "experimentalDecorators": true,
     "noImplicitUseStrict": false,
     "outDir": "dist/",
-    "rootDir": "./",
+    "baseUrl": ".",
+    "rootDir": "src",
     "listFiles": false,
     "noImplicitReturns": true,
     "strict": true,
     "suppressImplicitAnyIndexErrors": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "paths": {
+      
+    }
+  },
+  "ts-node": {
+    "require": [
+      "tsconfig-paths/register"
+    ]
+  },
+  "tsc-alias": {
+    "verbose": false,
+    "resolveFullPaths": true
   },
   "include": [
-    "./**/*.ts",
-    "./**/*.d.ts",
-    "./**/*.js",
+    "./src/**/*.ts",
+    "./src/**/*.d.ts",
+    "./src/**/*.js"
   ],
   "exclude": [
     "node_modules",
     "./dist"
-  ],
+  ]
 }

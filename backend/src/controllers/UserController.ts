@@ -1,4 +1,4 @@
-﻿import { Body, Post, JsonController } from "routing-controllers";
+﻿import { Body, Post, JsonController, Get } from "routing-controllers";
 import { login, LoginParams, register, RegisterParams } from "../services/user";
 
 @JsonController("")

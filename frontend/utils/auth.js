@@ -11,6 +11,7 @@ export const useAuth = () => useContext(authContext);
 
 function useProvideAuth() {
   const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState("");
   const [isLogined, setIsLogined] = useState(false);
   const [error, setError] = useState("");
   const [locale, setLocale] = useState("ru");
@@ -18,13 +19,12 @@ function useProvideAuth() {
   useEffect(() => {
     autoLogin();
     getLocale();
-  });
+  }, []);
 
   const signUp = async (_username, _password, _email) => {
     setError("");
     const res = await fetch("http://localhost:5000/api/register", {
       method: "POST",
-      // mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
       },
@@ -43,7 +43,6 @@ function useProvideAuth() {
     setError("");
     const res = await fetch("http://localhost:5000/api/login", {
       method: "POST",
-      // mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
       },
@@ -54,14 +53,21 @@ function useProvideAuth() {
     });
     const data = await res.json();
     if (data.data) {
+      setUserId(data.data.id);
       setUsername(data.data.username);
       setIsLogined(true);
       if (typeof window !== "undefined") {
         localStorage.setItem("username", JSON.stringify(data.data.username));
+        localStorage.setItem("userId", JSON.stringify(data.data.id));
       }
     }
 
     if (data.meta) setError(data.meta.error.message);
+    if (
+      window.location.pathname === "/dogs" ||
+      window.location.pathname === "/cats"
+    )
+      window.location.reload();
     return data;
   };
 
@@ -69,11 +75,12 @@ function useProvideAuth() {
     setError("");
     if (typeof window !== "undefined") {
       const user = JSON.parse(localStorage.getItem("username"));
-
       if (user) {
         setIsLogined(true);
         setUsername(user);
       }
+      const userId = JSON.parse(localStorage.getItem("userId"));
+      if (userId) setUserId(userId);
     }
   };
   const logout = () => {
@@ -84,16 +91,36 @@ function useProvideAuth() {
       setIsLogined(false);
       setUsername("");
     }
+    if (
+      window.location.pathname === "/dogs" ||
+      window.location.pathname === "/cats"
+    )
+      window.location.reload();
   };
 
-  const getLocale = () => {};
+  const getLocale = () => {
+    setError("");
+    if (typeof window !== "undefined") {
+      const lang = JSON.parse(localStorage.getItem("locale"));
+      if (lang) setLocale(lang);
+      else localStorage.setItem("locale", JSON.stringify(lang));
+    }
+  };
+
+  const setLang = (lang) => {
+    if (typeof window !== "undefined") {
+      setLocale(lang);
+      localStorage.setItem("locale", JSON.stringify(lang));
+    }
+  };
 
   return {
+    userId,
     username,
     isLogined,
     error,
     locale,
-    setLocale,
+    setLang,
     login,
     logout,
     signUp,

@@ -6,6 +6,8 @@ import {
   CreateCardParams,
   getCats,
   getDogs,
+  GetLikedCardParams,
+  getLikedCards,
 } from "../services/card";
 
 @JsonController("/cards")
@@ -14,6 +16,7 @@ export class PostController {
   async act(@Param("id") id: number, @Body() params: ActParams) {
     return await act(id, params);
   }
+
   @Get("/cats")
   async getCats() {
     return { result: await getCats() };
@@ -22,8 +25,14 @@ export class PostController {
   async getDogs() {
     return { result: await getDogs() };
   }
+
   @Post("/create")
   async create(@Body() params: CreateCardParams) {
     return { result: await create(params) };
+  }
+
+  @Post("/liked")
+  async getLikedCards(@Body() params: GetLikedCardParams) {
+    return { result: await getLikedCards(params) };
   }
 }

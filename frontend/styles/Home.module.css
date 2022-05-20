@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Smooch+Sans&display=swap");
 
+
 .container {
   padding: 0 2rem;
 }
@@ -19,7 +20,7 @@
 }
 
 .main_title {
-  font-family: "Smooch Sans", sans-serif;
+  font-family: 'Source Code Pro', monospace;
   font-size: 32px;
 }
 
@@ -30,7 +31,7 @@
 }
 
 .main_subtitle {
-  font-family: "Smooch Sans", sans-serif;
+  font-family: 'Source Code Pro', monospace;
   font-size: 20px;
   font-weight: normal;
   margin: 0;
@@ -52,6 +53,7 @@
   margin: 0 auto;
 }
 .breed_text {
+  font-family: 'Source Code Pro', monospace;
   text-align: center;
 }
 
@@ -87,6 +89,7 @@
   border-radius: 10px;
   border-color: #6366F1;
   background-color: #6366F1; 
+  align-items: center;
 }
 
 .login:hover {
@@ -96,7 +99,33 @@
   cursor: pointer !important;
 }
 
+.lang {
+  height: 30px;
+  width: 30px;
+  margin: 7px 7px 0 auto;
+  font-family: 'Source Code Pro', monospace;
+  text-align: baseline;
+  font-size: 1.1rem;
+  cursor: pointer;
+  opacity: 1;
+  transition: .2s;
+}
+
+.lang:hover {
+  transition: .2s;
+  opacity: .6;
+}
+
+.lang_active {
+  text-decoration: underline;
+}
+
+.lang:nth-of-type(2) {
+  margin-right: 100px;
+}
+
 .logined {
+  font-family: 'Source Code Pro', monospace;
   height: 30px;
   width: 125px;
   margin: 0 0 0 auto;
@@ -105,12 +134,14 @@
 }
 
 .header_item {
-  font-family: Roboto;
+  font-family: 'Source Code Pro', monospace;
   opacity: 1;
+  display: flex;
   color: #6366F1;
   text-align: center;
   transition: 0.3s;
-  height: 25px;
+  justify-content: center;
+  align-items: center;
 }
 .header_item > h3 {
   margin: 0;
@@ -275,6 +306,16 @@
   animation: spin 3s infinite;
 }
 
+.telegram {
+  cursor: pointer;
+  transition: .2s;
+  opacity: 1;
+}
+
+.telegram:hover {
+  opacity: .6;
+  transition: .2s;
+}
 
 @media (max-width: 600px) {
   .grid {

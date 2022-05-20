@@ -2,17 +2,20 @@
 import { css } from "@emotion/react";
 
 export const navLinks = [
-  { name: "Главная", path: "/" },
+  { ruName: "Главная", enName: "Main page", path: "/" },
   {
-    name: "Кошки",
+    ruName: "Кошки",
+    enName: "Cats",
     path: "/cats",
   },
   {
-    name: "Собаки",
+    ruName: "Собаки",
+    enName: "Dogs",
     path: "/dogs",
   },
   {
-    name: <NavItem item="Напишите нам" />,
+    ruName: <NavItem item="Напишите нам" />,
+    enName: <NavItem item="Contact us" />,
     path: "#contact",
   },
 ];

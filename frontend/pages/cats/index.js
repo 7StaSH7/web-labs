@@ -1,10 +1,10 @@
 ﻿import React, { useEffect, useState } from "react";
 import styles from "../../styles/Home.module.css";
 import Header from "../header";
-import useSWR from "swr";
 import Cat from "./cat";
 import ClipLoader from "react-spinners/ClipLoader";
 import { override } from "../data";
+import { useAuth } from "../../utils/auth";
 
 const fetcher = async (url) =>
   fetch(url, {
@@ -12,6 +12,7 @@ const fetcher = async (url) =>
   }).then((res) => res.json());
 
 export default function Cats() {
+  const auth = useAuth();
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(async () => {
@@ -29,7 +30,9 @@ export default function Cats() {
     <div className={styles.container}>
       <Header></Header>
       <main className={styles.main}>
-        <h4 className={styles.main_title}>Породы кошек</h4>
+        <h4 className={styles.main_title}>
+          {auth.locale === "ru" ? "Породы кошек" : "Cat breeds"}
+        </h4>
         <div className={styles.grid_list}>
           {cards.map((cat, idx) => {
             return <Cat cat={cat} key={idx} />;

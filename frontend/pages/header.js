@@ -2,7 +2,7 @@
 import { navLinks } from "./data";
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
@@ -16,34 +16,16 @@ export default function Header() {
   const auth = useAuth();
   const router = useRouter();
   const toast = useRef(null);
-  
+
   const menuItems = [
     {
       label: auth.username,
       items: [
         {
-          label: "Язык",
-          icon: "pi pi-cog",
-          items: [
-            {
-              label: "RU",
-              command: () => {
-                console.log("ru");
-              },
-            },
-            {
-              label: "EN",
-              command: () => {
-                console.log("en");
-              },
-            },
-          ],
-        },
-        {
-          label: "Выход",
+          label: auth.locale === "ru" ? "Выход" : "Logout",
           icon: "pi pi-sign-out",
           command: () => {
-            console.log("logout");
+            auth.logout();
           },
         },
       ],
@@ -58,7 +40,7 @@ export default function Header() {
   const [register, setRegister] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidUsername, setIsValidUsername] = useState(true);
-  
+
   const dialogFuncMap = {
     login: setLogin,
     register: setRegister,
@@ -84,7 +66,18 @@ export default function Header() {
       if (data.meta.error.message === "user.password-not-match") {
         toast.current.show({
           severity: "error",
-          summary: "Не тот пароль 😢",
+          summary:
+            auth.locale === "ru" ? "Не тот пароль 😢" : "Incorrect password 😢",
+          life: 3000,
+        });
+      }
+      if (data.meta.error.message === "user.not-found") {
+        toast.current.show({
+          severity: "error",
+          summary:
+            auth.locale === "ru"
+              ? "Такой пользователь не найден 😱"
+              : "User is not found 😱",
           life: 3000,
         });
       }
@@ -94,7 +87,10 @@ export default function Header() {
       onHide("login");
       toast.current.show({
         severity: "success",
-        summary: `Привет, ${data.data.username} 👋`,
+        summary:
+          auth.locale === "ru"
+            ? `Привет, ${data.data.username} 👋`
+            : `Hi, ${data.data.username} 👋`,
         life: 3000,
       });
     }
@@ -106,7 +102,10 @@ export default function Header() {
       if (data.meta.error.message === "user.already-exist") {
         toast.current.show({
           severity: "error",
-          summary: "Такой пользователь уже существует 😰",
+          summary:
+            auth.locale === "ru"
+              ? "Такой пользователь уже существует 😰"
+              : "User with this email already exists 😰",
           life: 3000,
         });
       }
@@ -116,7 +115,10 @@ export default function Header() {
       onClick("login");
       toast.current.show({
         severity: "success",
-        summary: "Успешно зарегистрировались",
+        summary:
+          auth.locale === "ru"
+            ? "Успешно зарегистрировались"
+            : "Successfully registered",
         life: 3000,
       });
     }
@@ -126,7 +128,7 @@ export default function Header() {
     return name === "login" ? (
       <div className={styles.dialog_footer}>
         <Button
-          label="Регистрация"
+          label={auth.locale === "ru" ? "Регистрация" : "Registration"}
           onClick={() => {
             onClick("register");
             onHide(name);
@@ -134,7 +136,7 @@ export default function Header() {
           className="p-button-text"
         />
         <Button
-          label="Войти"
+          label={auth.locale === "ru" ? "Войти" : "Sign in"}
           onClick={() => log()}
           className="mx-4"
           disabled={!(isValidUsername && isValidEmail && password !== "")}
@@ -144,7 +146,7 @@ export default function Header() {
       <div className={styles.dialog_footer}>
         <Button
           className="w-full"
-          label="Зарегистрироваться"
+          label={auth.locale === "ru" ? "Зарегистрироваться" : "Sign up"}
           onClick={registration}
           disabled={
             !(
@@ -185,27 +187,50 @@ export default function Header() {
                       : ""
                   }`}
                 >
-                  <h3>{link.name}</h3>
+                  <h3 style={{ margin: "" }}>
+                    {auth.locale === "ru" ? link.ruName : link.enName}
+                  </h3>
                 </li>
               </Link>
             );
           })}
         </ul>
       </nav>
-      {!auth.isLogined ? (
-        <Button
-          label="Войти"
-          onClick={() => onClick("login")}
-          className={styles.login}
-        />
-      ) : (
-        <PanelMenu
-          model={menuItems}
-          id="popup_menu"
-          className={styles.logined}
-        />
-      )}
-
+      <div style={{ margin: "0 0 0 auto", display: "flex" }}>
+        <div
+          onClick={() => auth.setLang("ru")}
+          className={
+            auth.locale === "ru"
+              ? `${styles.lang} ${styles.lang_active}`
+              : styles.lang
+          }
+        >
+          RU
+        </div>
+        <div
+          onClick={() => auth.setLang("en")}
+          className={
+            auth.locale === "en"
+              ? `${styles.lang} ${styles.lang_active}`
+              : styles.lang
+          }
+        >
+          EN
+        </div>
+        {!auth.isLogined ? (
+          <Button
+            label={auth.locale === "ru" ? "Войти" : "Sign in"}
+            onClick={() => onClick("login")}
+            className={styles.login}
+          />
+        ) : (
+          <PanelMenu
+            model={menuItems}
+            id="popup_menu"
+            className={styles.logined}
+          />
+        )}
+      </div>
       <Dialog
         footer={renderFooter("login")}
         visible={login}
@@ -238,7 +263,7 @@ export default function Header() {
           </div> */}
           <div className="field w-full">
             <label htmlFor="email" className="block">
-              Почта
+              {auth.locale === "ru" ? "Почта" : "Email"}
             </label>
             <InputText
               id="email"
@@ -253,12 +278,12 @@ export default function Header() {
               id="email-help"
               className={!isValidEmail ? `p-error block` : `hidden`}
             >
-              Неверный email.
+              {auth.locale === "ru" ? "Неверный email" : "Incorrect email"}
             </small>
           </div>
           <div className="field mt-4">
             <label htmlFor="password" className="block">
-              Пароль
+              {auth.locale === "ru" ? "Пароль" : "Password"}
             </label>
             <Password
               id="password"
@@ -282,7 +307,7 @@ export default function Header() {
       >
         <div className="field w-full">
           <label htmlFor="register-username" className="block">
-            Логин
+            {auth.locale === "ru" ? "Логин" : "Login"}
           </label>
           <InputText
             id="register-username"
@@ -297,13 +322,15 @@ export default function Header() {
             id="register-username-help"
             className={!isValidUsername ? `p-error block` : `hidden`}
           >
-            Длина логина должна быть больше 3.
+            {auth.locale === "ru"
+              ? "Длина логина должна быть больше 3"
+              : "Login's length must be more than 3"}
           </small>
         </div>
         <div>
           <div className="field mt-4 w-full">
             <label htmlFor="email" className="block">
-              Почта
+              {auth.locale === "ru" ? "Почта" : "Email"}
             </label>
             <InputText
               id="email"
@@ -318,12 +345,12 @@ export default function Header() {
               id="email-help"
               className={!isValidEmail ? `p-error block` : `hidden`}
             >
-              Неверный email.
+              {auth.locale === "ru" ? "Неверный email" : "Incorrect email"}
             </small>
           </div>
           <div className="field mt-4">
             <label htmlFor="password" className="block">
-              Пароль
+              {auth.locale === "ru" ? "Пароль" : "Password"}
             </label>
             <Password
               id="password"
@@ -335,7 +362,9 @@ export default function Header() {
           </div>
           <div className="field mt-4">
             <label htmlFor="confirm-password" className="block">
-              Подтвердите пароль
+              {auth.locale === "ru"
+                ? "Подтвердите пароль"
+                : "Confirm your password"}
             </label>
             <Password
               id="confirm-password"
@@ -350,7 +379,9 @@ export default function Header() {
                 !(password == confirmPassword) ? `p-error block` : `hidden`
               }
             >
-              Пароли не совпадают
+              {auth.locale === "ru"
+                ? "Пароли не совпадают"
+                : "Passwords does not match"}
             </small>
           </div>
         </div>

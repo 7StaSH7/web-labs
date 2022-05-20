@@ -25,12 +25,7 @@ export default function Document() {
         <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
         <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
         <script src="https://unpkg.com/react-transition-group@4.4.2/dist/react-transition-group.js"></script>
-        <link rel="preconnect" href="https://fonts.googleapis.com"></link>
-        <link rel="preconnect" href="https://fonts.gstatic.com"></link>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Smooch+Sans&display=swap"
-          rel="stylesheet"
-        ></link>
+        
       </Head>
       <body>
         <Main />

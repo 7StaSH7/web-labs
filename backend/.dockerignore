@@ -1,0 +1,6 @@
+﻿.ci
+.git
+.idea
+.helm
+.next
+node_modules

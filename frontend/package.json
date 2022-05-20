@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev-docker": "next dev",
     "dev": "npm run open && next dev",
     "build": "next build",
     "open": "start http://localhost:3000",

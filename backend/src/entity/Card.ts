@@ -3,8 +3,10 @@
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Like } from "./Like";
 import { User } from "./User";
 
 @Entity()
@@ -23,4 +25,7 @@ export class Card {
 
   @Column({ type: "smallint", default: 0 })
   likesCount!: number;
+
+  @OneToMany(() => Like, (like) => like.card)
+  likes!: Like[];
 }

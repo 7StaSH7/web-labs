@@ -8,7 +8,7 @@ import path from "path";
 import { Application } from "express";
 import { connect } from "./db";
 import cookieParser from "cookie-parser";
-import { GlobalErrorHandler } from "./middleware/error-handler";
+import { GlobalErrorHandler } from "./src/middleware/error-handler";
 import cors from "cors";
 import { json, urlencoded } from "body-parser";
 
@@ -21,7 +21,10 @@ async function run() {
   };
   const options: RoutingControllersOptions = {
     routePrefix: "/api",
-    controllers: [path.join(__dirname + "/controllers/*.ts")],
+    controllers: [
+      path.join(__dirname + "/src/controllers/*.ts"),
+      path.join(__dirname + "/src/controllers/*.js"),
+    ],
     middlewares: [
       GlobalErrorHandler,
       json,
@@ -32,7 +35,6 @@ async function run() {
     defaultErrorHandler: false,
     cors: corsOptions,
   };
-
   const app = createExpressServer(options) as Application;
 
   app.use(cookieParser());
