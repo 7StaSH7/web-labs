@@ -1,4 +1,4 @@
-﻿import NavItem from "./navItem";
+﻿import NavItem from "../pages/navItem";
 import { css } from "@emotion/react";
 
 export const navLinks = [

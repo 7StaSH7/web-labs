@@ -4,7 +4,7 @@ import styles from "../../styles/Home.module.css";
 import Header from "../header";
 import Dog from "./dog";
 import ClipLoader from "react-spinners/ClipLoader";
-import { override } from "../data";
+import { override } from "../../data/data";
 import Pusher from "pusher-js";
 import { updatePostStats } from "../../utils/helpers";
 import { useAuth } from "../../utils/auth";
@@ -46,8 +46,10 @@ export default function Dogs() {
       setCards(data.result);
     });
     if (data.meta) return <div>Fail :(</div>;
-    const username = JSON.parse(localStorage.getItem("username"))
-    getLikedCards(auth.username || username).then(data => setLikedCards(data.result))
+    const username = JSON.parse(localStorage.getItem("username"));
+    getLikedCards(auth.username || username).then((data) =>
+      setLikedCards(data.result)
+    );
 
     setLoading(false);
   }, []);
@@ -68,7 +70,7 @@ export default function Dogs() {
             )
               ? true
               : false;
-            
+
             return (
               <Dog
                 dog={card}

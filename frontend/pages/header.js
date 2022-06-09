@@ -1,5 +1,5 @@
 ﻿import Link from "next/link";
-import { navLinks } from "./data";
+import { navLinks } from "../data/data";
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
 import { useState, useRef } from "react";

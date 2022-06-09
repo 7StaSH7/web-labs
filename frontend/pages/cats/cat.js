@@ -10,7 +10,7 @@ const fetcher = async (url) =>
 
 export default function Cat({ cat }) {
   const { data, error } = useSWR(
-    `https://api.thecatapi.com/v1/images/search?breed_id=${cat.id}`,
+    `https://api.thecatapi.com/v1/images/search?breed_id=${cat ? cat.id : ""}`,
     fetcher
   );
   if (!data) return <Skeleton containerClassName={styles.card} />;

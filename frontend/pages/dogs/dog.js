@@ -42,9 +42,9 @@ export default function Dog({ dog, id, socketId, isLiked }) {
     <>
       <Toast ref={toast} position="bottom-right" baseZIndex={20} />
       <div className={styles.card}>
-        <img className={styles.breed} src={dog.imgSrc}></img>
+        <img className={styles.breed} src={dog ? dog.imgSrc : ""}></img>
         <p className={styles.breed_text}>
-          {dog.dogId[0].toUpperCase() + dog.dogId.substring(1)}
+          {dog ? dog.dogId[0].toUpperCase() + dog.dogId.substring(1) : ""}
         </p>
         <div className="flex justify-content-between">
           <ToggleButton
@@ -56,11 +56,11 @@ export default function Dog({ dog, id, socketId, isLiked }) {
             onChange={(e) => like(e.value)}
           />
           <p
-            id={"likesCount-" + dog.id}
+            id={dog ? "likesCount-" + dog.id : "likesCount-0"}
             className="mt-2"
             style={{ fontFamily: "font-family: 'Source Code Pro', monospace" }}
           >
-            {dog.likesCount}
+            {dog ? dog.likesCount : "0"}
           </p>
         </div>
       </div>

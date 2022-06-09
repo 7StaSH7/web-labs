@@ -3,7 +3,7 @@ import styles from "../../styles/Home.module.css";
 import Header from "../header";
 import Cat from "./cat";
 import ClipLoader from "react-spinners/ClipLoader";
-import { override } from "../data";
+import { override } from "../../data/data";
 import { useAuth } from "../../utils/auth";
 
 const fetcher = async (url) =>
