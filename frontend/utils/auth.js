@@ -1,4 +1,5 @@
 ﻿import React, { useState, useContext, createContext, useEffect } from "react";
+import { baseUrl } from "../api/index";
 
 const authContext = createContext();
 
@@ -23,7 +24,7 @@ function useProvideAuth() {
 
   const signUp = async (_username, _password, _email) => {
     setError("");
-    const res = await fetch("http://localhost:5000/api/register", {
+    const res = await fetch(`${baseUrl}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +42,7 @@ function useProvideAuth() {
 
   const login = async (_email, _password) => {
     setError("");
-    const res = await fetch("http://localhost:5000/api/login", {
+    const res = await fetch(`${baseUrl}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

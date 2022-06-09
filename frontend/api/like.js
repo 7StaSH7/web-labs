@@ -1,5 +1,7 @@
-﻿export const likeAction = async (id, action, socketId, username) => {
-  const res = await fetch(`http://localhost:5000/api/cards/${id}/act`, {
+﻿import { baseUrl } from "./index";
+
+export const likeAction = async (id, action, socketId, username) => {
+  const res = await fetch(`${baseUrl}/cards/${id}/act`, {
     method: "POST",
     // mode: "no-cors",
     headers: {
