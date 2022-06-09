@@ -1,5 +1,7 @@
-﻿export const getLikedCards = async (username) => {
-  const likedRaw = await fetch("http://localhost:5000/api/cards/liked", {
+﻿import { baseUrl } from "./index";
+
+export const getLikedCards = async (username) => {
+  const likedRaw = await fetch(`${baseUrl}/cards/liked`, {
     method: "POST",
 
     headers: {
