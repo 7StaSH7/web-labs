@@ -1,5 +1,10 @@
 ﻿import { Body, Post, JsonController, Get } from "routing-controllers";
-import { login, LoginParams, register, RegisterParams } from "../services/user";
+import {
+  login,
+  LoginParams,
+  register,
+  RegisterParams,
+} from "@core/services/user";
 
 @JsonController("")
 export class UserController {

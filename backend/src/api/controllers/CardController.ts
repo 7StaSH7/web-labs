@@ -8,7 +8,7 @@ import {
   getDogs,
   GetLikedCardParams,
   getLikedCards,
-} from "../services/card";
+} from "@core/services/card";
 
 @JsonController("/cards")
 export class PostController {

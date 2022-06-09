@@ -18,7 +18,12 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "paths": {
-      
+      "@db/*": [
+        "src/db/*"
+      ],
+      "@core/*": [
+        "src/core/*"
+      ]
     }
   },
   "ts-node": {

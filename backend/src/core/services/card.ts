@@ -1,9 +1,9 @@
 ﻿import { getRepository, IsNull, Not } from "typeorm";
-import { Card } from "../entity/Card";
+import { Card } from "@db/entity/Card";
 import Pusher from "pusher";
 import { IsString } from "class-validator";
-import { Like } from "../entity/Like";
-import { User } from "../entity/User";
+import { Like } from "@db/entity/Like";
+import { User } from "@db/entity/User";
 require("dotenv").config();
 
 export class ActParams {
@@ -78,7 +78,6 @@ export const getDogs = async () => {
     where: { dogId: Not(IsNull()) },
     order: { id: "ASC" },
   });
-
   return dogs;
 };
 

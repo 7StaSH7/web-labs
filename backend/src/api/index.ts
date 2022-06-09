@@ -6,9 +6,9 @@ import {
 import path from "path";
 
 import { Application } from "express";
-import { connect } from "./db";
+import { connect } from "@db/index";
 import cookieParser from "cookie-parser";
-import { GlobalErrorHandler } from "./src/middleware/error-handler";
+import { GlobalErrorHandler } from "./middleware/error-handler";
 import cors from "cors";
 import { json, urlencoded } from "body-parser";
 
@@ -20,10 +20,10 @@ async function run() {
     credentials: true,
   };
   const options: RoutingControllersOptions = {
-    routePrefix: "/api",
+    routePrefix: process.env.ROUTE_PREFIX || "/api",
     controllers: [
-      path.join(__dirname + "/src/controllers/*.ts"),
-      path.join(__dirname + "/src/controllers/*.js"),
+      path.join(__dirname + "/controllers/*.ts"), // dev
+      path.join(__dirname + "/controllers/*.js"), // build
     ],
     middlewares: [
       GlobalErrorHandler,

@@ -1,9 +1,7 @@
 ﻿import {
-  Column,
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Card } from "./Card";

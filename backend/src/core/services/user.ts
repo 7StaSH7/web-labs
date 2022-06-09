@@ -1,7 +1,7 @@
 ﻿import { IsEmail, IsOptional, IsString } from "class-validator";
 import { HttpError } from "routing-controllers";
 import { getRepository } from "typeorm";
-import { User } from "../entity/User";
+import { User } from "@db/entity/User";
 
 export class LoginParams extends User {
   @IsEmail()

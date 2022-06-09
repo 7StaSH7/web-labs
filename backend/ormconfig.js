@@ -1,6 +1,6 @@
 ﻿const dotenv = require("dotenv");
 dotenv.config();
-const isDev = process.env.NODE_ENV !== 'prod';
+const isDev = process.env.NODE_ENV !== "prod";
 module.exports = {
   type: "postgres",
   host: process.env.DB_HOSTNAME,
@@ -9,10 +9,11 @@ module.exports = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   synchronize: true,
-  entities: [isDev ? 'src/entity/**/*.ts' : 'dist/entity/**/*.js'],
-  migrations: [isDev ? 'src/migration/**/*.ts' : 'dist/migration/**/*.js'],
+  entities: [isDev ? "src/db/entity/**/*.ts" : "dist/db/entity/**/*.js"],
+  migrations: [
+    isDev ? "src/db/migration/**/*.ts" : "dist/db/migration/**/*.js",
+  ],
   cli: {
-    migrationsDir: isDev ? 'src/migration' : 'dist/migration',
-
+    migrationsDir: isDev ? "src/db/migration" : "dist/db/migration",
   },
 };
